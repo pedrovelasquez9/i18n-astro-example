@@ -1,0 +1,91 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations } from "../i18n/utils";
+import { languageList } from "../i18n/ui";
+const currentLang = Astro.currentLocale || "es";
+
+const translateLabels = useTranslations(
+  currentLang as keyof typeof languageList
+);
+---
+
+<!doctype html>
+<html lang={currentLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Programación en español</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href={getRelativeLocaleUrl(currentLang, "/")}
+              >{translateLabels("nav.home")}</a
+            >
+          </li>
+          <li>
+            <a href={getRelativeLocaleUrl(currentLang, "about")}
+              >{translateLabels("nav.about")}</a
+            >
+          </li>
+          {
+            Object.entries(languageList).map(
+              ([key, label]: [string, string]) => {
+                return (
+                  <li>
+                    <a href={`/${key}`}>{label}</a>
+                  </li>
+                );
+              }
+            )
+          }
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+<style>
+  html {
+    background-color: #292d3e;
+    color: #fff;
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    font-family: "Courier New", Courier, monospace;
+  }
+
+  nav > ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    justify-content: end;
+    padding: 1rem;
+    font-size: large;
+    margin: 0;
+  }
+
+  li > a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  main {
+    justify-items: center;
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

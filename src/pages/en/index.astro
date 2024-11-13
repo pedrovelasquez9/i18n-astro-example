@@ -1,0 +1,23 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { useTranslations } from "../../i18n/utils";
+import { languageList } from "../../i18n/ui";
+
+const currentLang = Astro.currentLocale || "es";
+
+const translateLabels = useTranslations(
+  currentLang as keyof typeof languageList
+);
+---
+
+<MainLayout>
+  <section>
+    <h1>{translateLabels("home.title")}</h1>
+  </section>
+</MainLayout>
+
+<style>
+  h1 {
+    font-size: 3rem;
+  }
+</style>
